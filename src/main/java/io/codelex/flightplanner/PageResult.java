@@ -9,8 +9,8 @@ public class PageResult {
     int pageDivider = 10;
 
     public PageResult(double page, int totalItems, ArrayList<Flight> items) {
-        this.page = page = PageNr();
-        this.totalItems  = totalItems = items.size();
+        this.page= PageNr();
+        this.totalItems  = items.size();
         this.items =  items;
     }
 
@@ -52,6 +52,5 @@ public class PageResult {
     public void setPage(double page) {
         this.page = page;
     }
-
 
 }

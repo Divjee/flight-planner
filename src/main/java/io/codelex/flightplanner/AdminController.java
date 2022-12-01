@@ -11,27 +11,24 @@ import java.util.UUID;
 public class AdminController {
     FlightService flightService;
 
-
     public AdminController(FlightService flightService) {
         this.flightService = flightService;
     }
 
-
     @PutMapping(path = "/flights")
     @ResponseStatus(HttpStatus.CREATED)
-    public Flight addFlight(@Valid @RequestBody AddFlightRequest request) {
+    public synchronized Flight addFlight(@Valid @RequestBody AddFlightRequest request) {
         Flight flight = request.toDomain(UUID.randomUUID());
         flightService.addFlight(flight);
         return flight;
     }
 
     @DeleteMapping(value = "/flights/{id}")
-    public void deleteFlight(@PathVariable String id) {
+    public synchronized void deleteFlight(@PathVariable String id) {
         flightService.deleteById(id);
     }
-
     @GetMapping(value = "/flights/{id}")
-    public Flight fetchFlight(@PathVariable String id) {
+    public synchronized Flight fetchFlight(@PathVariable String id) {
         return flightService.fetchById(id);
     }
 

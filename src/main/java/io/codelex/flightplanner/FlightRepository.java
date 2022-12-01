@@ -11,7 +11,6 @@ import java.util.List;
 public class FlightRepository {
     private List<Flight> flightList = new ArrayList<>();
 
-
     public FlightRepository() {
     }
     public void addFlight(Flight flight) {

@@ -6,16 +6,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/testing-api")
-public class UserAndTestController {
+public class TestController {
 
     FlightService flightService;
 
-    public UserAndTestController(FlightService flightService) {
+    public TestController(FlightService flightService) {
         this.flightService = flightService;
     }
 
     @PostMapping("/clear")
-    public void clearFlights(){
+    public synchronized void clearFlights(){
         flightService.clearFlights();
     }
 }

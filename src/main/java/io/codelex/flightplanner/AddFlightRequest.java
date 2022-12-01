@@ -19,7 +19,6 @@ public class AddFlightRequest {
     @NotBlank
     private String arrivalTime;
 
-
     public AddFlightRequest(Airport from, Airport to, String carrier, String departureTime, String arrivalTime) {
         this.from = from;
         this.to = to;
@@ -28,8 +27,6 @@ public class AddFlightRequest {
         this.arrivalTime = arrivalTime;
 
     }
-
-
     public Airport getFrom() {
         return from;
     }

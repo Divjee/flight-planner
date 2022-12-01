@@ -16,7 +16,6 @@ public class Airport {
         this.country = country;
         this.city = city;
         this.airport = airport;
-
     }
 
     public String getCountry() {
@@ -60,6 +59,4 @@ public class Airport {
         result = 31 * result + getAirport().hashCode();
         return result;
     }
-
-
 }
