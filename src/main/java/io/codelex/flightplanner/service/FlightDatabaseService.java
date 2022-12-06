@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -66,7 +67,15 @@ public class FlightDatabaseService implements FlightService {
 
     @Override
     public List<Airport> checkIfMatches(String info) {
-        return null;
+        List<Airport> airports = new ArrayList<>();
+        for (Flight i : flightRepository.findAll()) {
+            if (i.getFrom().getCountry().toLowerCase().contains(info.trim().toLowerCase()) ||
+                    i.getFrom().getCity().toLowerCase().contains(info.trim().toLowerCase()) ||
+                    i.getFrom().getAirport().toLowerCase().contains(info.trim().toLowerCase())) {
+                airports.add(i.getFrom());
+            }
+        }
+        return airports;
     }
 
     @Override
@@ -74,10 +83,6 @@ public class FlightDatabaseService implements FlightService {
         return false;
     }
 
-    @Override
-    public boolean checkIfSameAirport(Airport from, Airport to) {
-        return false;
-    }
     @Override
     public HttpStatus deleteById(String id) {
         for(Flight i : flightRepository.findAll()){

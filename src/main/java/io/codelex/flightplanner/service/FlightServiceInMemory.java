@@ -80,10 +80,6 @@ public class FlightServiceInMemory implements FlightService {
         return false;
     }
 
-    @Override
-    public boolean checkIfSameAirport(Airport from, Airport to) {
-        return false;
-    }
 
     @Override
     public HttpStatus deleteById(String id) {

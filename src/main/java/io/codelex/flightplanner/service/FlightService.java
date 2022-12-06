@@ -23,7 +23,5 @@ public interface FlightService {
 
      boolean checkIfSameAirport(Flight f);
 
-    boolean checkIfSameAirport(Airport from, Airport to);
-
     HttpStatus deleteById(String id);
 }
