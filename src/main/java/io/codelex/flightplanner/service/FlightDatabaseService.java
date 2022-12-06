@@ -56,7 +56,12 @@ public class FlightDatabaseService implements FlightService {
 
     @Override
     public Flight fetchById(String id) {
-        return null;
+        for (Flight i : flightRepository.findAll()) {
+            if (i.getId().equals(id)) {
+                return i;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @Override
@@ -73,23 +78,15 @@ public class FlightDatabaseService implements FlightService {
     public boolean checkIfSameAirport(Airport from, Airport to) {
         return false;
     }
-
-
-    public boolean checkIfSameAirport3(Airport from, Airport to) {
-        List<Airport> airports = airportRepository.findAll();
-        for(Airport i : airports){
-            if(from.getAirport().equalsIgnoreCase(i.getAirport())|| to.getAirport().equalsIgnoreCase(i.getAirport())){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
-            airportRepository.save(from);
-            airportRepository.save(to);
-        }
-        return false;
-    }
-
     @Override
-    public void deleteById(String id) {
-
+    public HttpStatus deleteById(String id) {
+        for(Flight i : flightRepository.findAll()){
+            if(i.getId().equals(id)) {
+                flightRepository.deleteById(id);
+                break;
+            }
+        }
+       return HttpStatus.OK;
     }
 
     private boolean checkIfSameFlight(Flight f, Flight b) {
@@ -124,6 +121,4 @@ public class FlightDatabaseService implements FlightService {
                 .orElse(airportRepository.save(airportReq));
 
     }
-
-
 }

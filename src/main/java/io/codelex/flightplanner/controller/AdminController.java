@@ -29,7 +29,7 @@ public class AdminController {
     }
 
     @DeleteMapping(value = "/flights/{id}")
-    public synchronized void deleteFlight(@PathVariable String id) {
+    public void deleteFlight(@PathVariable String id) {
         flightService.deleteById(id);
     }
     @GetMapping(value = "/flights/{id}")

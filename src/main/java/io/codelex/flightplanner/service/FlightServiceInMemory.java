@@ -86,9 +86,10 @@ public class FlightServiceInMemory implements FlightService {
     }
 
     @Override
-    public  void deleteById(String id) {
+    public HttpStatus deleteById(String id) {
         repository.getFlightList().removeIf(flight -> flight.getId().equals(id));
 
+        return null;
     }
 
     private boolean checkIfSameFlight(Flight f, Flight b) {
