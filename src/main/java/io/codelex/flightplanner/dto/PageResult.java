@@ -1,4 +1,6 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.dto;
+
+import io.codelex.flightplanner.domain.Flight;
 
 import java.util.ArrayList;
 

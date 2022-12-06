@@ -1,11 +1,14 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.controller;
 
-import org.springframework.http.HttpStatus;
+import io.codelex.flightplanner.domain.Airport;
+import io.codelex.flightplanner.domain.Flight;
+import io.codelex.flightplanner.dto.PageResult;
+import io.codelex.flightplanner.dto.SearchFlightRequest;
+import io.codelex.flightplanner.service.FlightService;
+import io.codelex.flightplanner.service.FlightServiceInMemory;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

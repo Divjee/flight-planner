@@ -1,5 +1,10 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.controller;
 
+import io.codelex.flightplanner.dto.AddFlightRequest;
+import io.codelex.flightplanner.domain.Flight;
+import io.codelex.flightplanner.service.FlightDatabaseService;
+import io.codelex.flightplanner.service.FlightService;
+import io.codelex.flightplanner.service.FlightServiceInMemory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +22,7 @@ public class AdminController {
 
     @PutMapping(path = "/flights")
     @ResponseStatus(HttpStatus.CREATED)
-    public synchronized Flight addFlight(@Valid @RequestBody AddFlightRequest request) {
+    public  Flight addFlight(@Valid @RequestBody AddFlightRequest request) {
         Flight flight = request.toDomain(UUID.randomUUID());
         flightService.addFlight(flight);
         return flight;

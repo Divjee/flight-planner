@@ -1,17 +1,18 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.repository;
 
-import org.springframework.http.HttpStatus;
+import io.codelex.flightplanner.domain.Flight;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class FlightRepository {
+//@ConditionalOnProperty(prefix = "flightplanner", name = "appmode", havingValue = "inmemory")
+public class FlightInMemoryRepository {
     private List<Flight> flightList = new ArrayList<>();
 
-    public FlightRepository() {
+    public FlightInMemoryRepository() {
     }
     public void addFlight(Flight flight) {
         flightList.add(flight);
