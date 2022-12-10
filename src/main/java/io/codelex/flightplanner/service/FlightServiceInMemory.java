@@ -1,5 +1,11 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.service;
 
+import io.codelex.flightplanner.repository.FlightInMemoryRepository;
+import io.codelex.flightplanner.domain.Airport;
+import io.codelex.flightplanner.domain.Flight;
+import io.codelex.flightplanner.dto.PageResult;
+import io.codelex.flightplanner.dto.SearchFlightRequest;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -8,27 +14,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class FlightService {
-    private final FlightRepository repository;
+@ConditionalOnProperty(prefix = "flightplanner", name = "appmode", havingValue = "inmemory")
+public class FlightServiceInMemory implements FlightService {
+    private final FlightInMemoryRepository repository;
 
-    public FlightService(FlightRepository repository) {
+    public FlightServiceInMemory(FlightInMemoryRepository repository) {
         this.repository = repository;
 
     }
-
-    public synchronized void addFlight(Flight flight) {
+@Override
+    public  void addFlight(Flight flight) {
         checkIfCorrectDates(flight);
         checkIfSameAirport(flight);
         checkForDuplicates(flight);
         repository.addFlight(flight);
     }
-
-    public synchronized void clearFlights() {
+    @Override
+    public  void clearFlights() {
         this.repository.getFlightList().removeAll(repository.getFlightList());
     }
 
-
-    public synchronized PageResult searchFlights(SearchFlightRequest req) {
+    @Override
+    public  PageResult searchFlights(SearchFlightRequest req) {
         if (req.getFrom().equals(req.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
@@ -44,8 +51,8 @@ public class FlightService {
         }
         return result;
     }
-
-    public synchronized Flight fetchById(String id) {
+    @Override
+    public  Flight fetchById(String id) {
         for (Flight i : repository.getFlightList()) {
             if (i.getId().equals(id)) {
                 return i;
@@ -53,8 +60,8 @@ public class FlightService {
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-
-    public synchronized List<Airport> checkIfMatches(String info) {
+    @Override
+    public  List<Airport> checkIfMatches(String info) {
         List<Airport> airports = new ArrayList<>();
         for (Flight i : repository.getFlightList()) {
             if (i.getFrom().getCountry().toLowerCase().contains(info.trim().toLowerCase()) ||
@@ -65,14 +72,20 @@ public class FlightService {
         }
         return airports;
     }
-    public synchronized void checkIfSameAirport(Flight f) {
+    @Override
+    public boolean checkIfSameAirport(Flight f) {
         if (checkIfSameAirport1(f)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+        return false;
     }
-    public synchronized void deleteById(String id) {
+
+
+    @Override
+    public HttpStatus deleteById(String id) {
         repository.getFlightList().removeIf(flight -> flight.getId().equals(id));
 
+        return null;
     }
 
     private boolean checkIfSameFlight(Flight f, Flight b) {
@@ -94,6 +107,7 @@ public class FlightService {
                 f.getFrom().getCity().trim().equalsIgnoreCase(f.getTo().getCity().trim()) &&
                 f.getFrom().getAirport().trim().equalsIgnoreCase(f.getTo().getAirport().trim());
     }
+
     private void checkIfCorrectDates(Flight flight) {
         if (flight.checkIfCorrectDate(flight.getArrivalTime(), flight.getDepartureTime())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

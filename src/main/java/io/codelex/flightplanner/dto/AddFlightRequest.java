@@ -1,8 +1,15 @@
-package io.codelex.flightplanner;
+package io.codelex.flightplanner.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.codelex.flightplanner.domain.Airport;
+import io.codelex.flightplanner.domain.Flight;
+
+import javax.persistence.Transient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class AddFlightRequest {
@@ -14,9 +21,9 @@ public class AddFlightRequest {
     private Airport to;
     @NotBlank
     private String carrier;
-    @NotBlank
+@NotNull
     private String departureTime;
-    @NotBlank
+@NotNull
     private String arrivalTime;
 
     public AddFlightRequest(Airport from, Airport to, String carrier, String departureTime, String arrivalTime) {
